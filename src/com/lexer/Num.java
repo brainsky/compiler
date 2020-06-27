@@ -1,4 +1,4 @@
-package com.component;
+package com.lexer;
 
 public class Num extends Token {
 
@@ -11,6 +11,6 @@ public class Num extends Token {
 
     @Override
     public String toString() {
-        return "Num = { tag: "+super.getTag()+", value:"+value+"}";
+        return ""+value;
     }
 }

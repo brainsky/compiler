@@ -1,4 +1,4 @@
-package com.component;
+package com.lexer;
 
 /**
  * 存储标识符，“+”，“-”
@@ -17,8 +17,6 @@ public class Token {
 
     @Override
     public String toString() {
-        return "Token{" +
-                "tag=" + tag +
-                '}';
+        return "" + tag;
     }
 }
