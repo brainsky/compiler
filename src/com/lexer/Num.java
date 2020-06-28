@@ -2,7 +2,7 @@ package com.lexer;
 
 public class Num extends Token {
 
-    private final int value;
+    public final int value;
 
     public Num(int value){
         super(Tag.NUM);

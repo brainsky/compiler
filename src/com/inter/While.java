@@ -8,7 +8,12 @@ public class While extends Stmt {
 
     Stmt stmt;
 
-    public While(Expr x, Stmt s){
+    public While () {
+        expr = null;
+        stmt = null;
+    }
+
+    public void init(Expr x, Stmt s){
 
         expr = x;
 
