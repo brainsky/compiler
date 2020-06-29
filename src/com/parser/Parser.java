@@ -276,7 +276,72 @@ public class Parser {
     }
 
     Expr factor() throws IOException{
-        return null;
+
+        Expr expr = null;
+
+        switch (look.getTag()){
+            case '(':
+                move();
+                expr = bool();
+                match(')');
+                return expr;
+            case Tag.NUM:
+                expr = new Constant(look, Type.Int);
+                move();
+                return expr;
+            case Tag.REAL:
+                expr = new Constant(look, Type.Float);
+                move();
+                return expr;
+            case Tag.TRUE:
+                expr = Constant.True;
+                move();
+                return expr;
+            case Tag.FALSE:
+                expr = Constant.Flase;
+                move();
+                return expr;
+            case Tag.ID:
+                String string = look.toString();
+                Id id = top.get(look);
+                if(id == null){
+                    error(look.toString() + "undeclared");
+                }
+                move();
+                if(look.getTag() != '['){
+                    return id;
+                }else {
+                    return offset(id);
+                }
+        }
+
+        return expr;
+    }
+
+    Access offset(Id id) throws IOException{
+        Expr i;
+        Expr w;
+        Expr t1, t2;
+        Expr loc;
+        Type type = id.type;
+        match('[');
+        i = bool();
+        match(']');
+        type = ((Array)type).elementType;
+        w = new Constant(type.width);
+        t1 = new Arith(new Token('*'),i,w);
+        loc = t1;
+        while (look.getTag() == '['){
+            match('[');
+            i = bool();
+            match(']');
+            type = ((Array)type).elementType;
+            w = new Constant(type.width);
+            t1 = new Arith(new Token('*'), i, w);
+            t2 = new Arith(new Token('+'), loc, t1);
+            loc = t2;
+        }
+        return new Access(id, loc, type);
     }
 
 
